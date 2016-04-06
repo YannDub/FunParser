@@ -1,12 +1,12 @@
-package yannoudub.json;
+package yannoudub.parser;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
 
 import org.junit.Test;
 
-import yanndub.json.Parser;
-import yanndub.json.ParserResult;
+import yanndub.parser.Parser;
+import yanndub.parser.ParserResult;
 
 public class TestParser {
 

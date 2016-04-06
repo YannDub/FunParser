@@ -1,4 +1,4 @@
-package yanndub.json;
+package yanndub.parser;
 
 import java.util.Optional;
 import java.util.function.Function;

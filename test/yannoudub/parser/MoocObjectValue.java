@@ -1,4 +1,4 @@
-package yannoudub.json;
+package yannoudub.parser;
 
 public class MoocObjectValue {
 

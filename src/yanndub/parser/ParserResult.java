@@ -1,4 +1,4 @@
-package yanndub.json;
+package yanndub.parser;
 
 public class ParserResult<T> {
 	
