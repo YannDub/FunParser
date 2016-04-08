@@ -1,5 +1,6 @@
 package yanndub.parser;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -72,6 +73,10 @@ public class Parser<T> {
 		return Parser.of(f);
 	}
 	
+	public Parser<T> alternate(Parser<T> p) {
+		return Parser.alternate(this, p);
+	}
+	
 	public static Parser<Character> charCond(Function<Character, Boolean> cond) {
 		return Parser.bind(Parser.anyCar(), c -> {
 			if(cond.apply((Character) c)) return Parser.succesful(c);
@@ -79,15 +84,27 @@ public class Parser<T> {
 		});
 	}
 	
-	public static Parser<Character> parseChar(char c) {
+	public static Parser<Character> character(char c) {
 		return Parser.charCond(c1 -> c1 == c);
 	}
 	
 	public static Parser<String> string(String s) {
 		if(s.equals("")) return Parser.succesful("");
 		
-		return Parser.bind(Parser.parseChar(s.charAt(0)), c -> Parser.string(s.substring(1))
+		return Parser.bind(Parser.character(s.charAt(0)), c -> Parser.string(s.substring(1))
 					 .bind(cs -> Parser.succesful(c + cs)));
+	}
+	
+	public static <T> Parser<ArrayList<T>> zeroOrPlus(Parser<T> p) {
+		return Parser.oneOrPlus(p).alternate(Parser.succesful(new ArrayList<T>()));
+	}
+	
+	public static <T> Parser<ArrayList<T>> oneOrPlus(Parser<T> p) {
+		return p.bind(r -> Parser.zeroOrPlus(p)
+				.bind(rs -> {
+					rs.add(r);
+					return Parser.succesful(rs);
+				}));
 	}
 	
 	/**
