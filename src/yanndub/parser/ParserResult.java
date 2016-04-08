@@ -29,4 +29,16 @@ public class ParserResult<T> {
 		}
 		return false;
 	}
+	
+	public String toString() {
+		String s = "(";
+		
+		s += result.getClass().getSimpleName() + "(" + result.toString() + ")";
+		
+		s += ",";
+		s += this.toParse;
+		s += ")";
+		
+		return s;
+	}
 }
