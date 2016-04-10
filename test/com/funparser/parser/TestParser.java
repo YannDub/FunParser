@@ -26,9 +26,9 @@ public class TestParser {
 	
 	@Test
 	public void testSuccesful() {
-		MoocObjectValue obj = new MoocObjectValue();
-		Optional<ParserResult<MoocObjectValue>> result = Parser.parse(Parser.succesful(obj), "timoleon");
-		assertEquals(Optional.of(new ParserResult<MoocObjectValue>(obj, "timoleon")), result);
+		MockObjectValue obj = new MockObjectValue();
+		Optional<ParserResult<MockObjectValue>> result = Parser.parse(Parser.succesful(obj), "timoleon");
+		assertEquals(Optional.of(new ParserResult<MockObjectValue>(obj, "timoleon")), result);
 	}
 	
 	@Test
@@ -44,9 +44,9 @@ public class TestParser {
 	
 	@Test
 	public void testAlternate() {
-		MoocObjectValue obj = new MoocObjectValue();
-		Parser<MoocObjectValue> ps = Parser.alternate(Parser.fail(), Parser.succesful(obj));
-		Optional<ParserResult<MoocObjectValue>> testChar = Parser.parse(ps, "Timoleon");
+		MockObjectValue obj = new MockObjectValue();
+		Parser<MockObjectValue> ps = Parser.alternate(Parser.fail(), Parser.succesful(obj));
+		Optional<ParserResult<MockObjectValue>> testChar = Parser.parse(ps, "Timoleon");
 		assertEquals(obj, testChar.get().getResult());
 		
 		ps = Parser.alternate(Parser.succesful(obj), Parser.fail());
