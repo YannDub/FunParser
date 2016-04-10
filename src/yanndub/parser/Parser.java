@@ -51,6 +51,13 @@ public class Parser<T> {
 		return Parser.of(s -> Optional.empty());
 	}
 	
+	/**
+	 * Bind two parser, if the first parser is a success, then function is applied and return a
+	 * new parser
+	 * @param p1 the first parser to bind
+	 * @param fp the function to apply when p1 is a success
+	 * @return the result parser after the application of fp
+	 */
 	public static <T, R> Parser<R> bind(Parser<T> p1, Function<T, Parser<R>> fp) {
 		Function<String, Optional<ParserResult<R>>> f = s -> {
 			Optional<ParserResult<T>> r = Parser.parse(p1, s);
@@ -60,10 +67,19 @@ public class Parser<T> {
 		return Parser.of(f);
 	}
 	
+	/**
+	 * @see Parser#bind(Parser, Function)
+	 */
 	public <R> Parser<R> bind(Function<T, Parser<R>> fp) {
 		return Parser.bind(this, fp);
 	}
 	
+	/**
+	 * Do one of the two parser
+	 * @param p1 the first parser to do
+	 * @param p2 the second parser to do if p1 was failed
+	 * @return the application of one of this two parser
+	 */
 	public static <T> Parser<T> alternate(Parser<T> p1, Parser<T> p2) {
 		Function<String, Optional<ParserResult<T>>> f = s -> {
 			Optional<ParserResult<T>> r = Parser.parse(p1, s);
@@ -73,10 +89,18 @@ public class Parser<T> {
 		return Parser.of(f);
 	}
 	
+	/**
+	 * @see Parser#alternate(Parser, Parser)
+	 */
 	public Parser<T> alternate(Parser<T> p) {
 		return Parser.alternate(this, p);
 	}
 	
+	/**
+	 * A parser of character with a condition
+	 * @param cond the conditional function
+	 * @return a successful parser with the character of a fail, it's depend of the condition
+	 */
 	public static Parser<Character> charCond(Function<Character, Boolean> cond) {
 		return Parser.bind(Parser.anyCar(), c -> {
 			if(cond.apply((Character) c)) return Parser.succesful(c);
@@ -84,10 +108,20 @@ public class Parser<T> {
 		});
 	}
 	
+	/**
+	 * Parse a specific character
+	 * @param c the character to parse
+	 * @return a successful parser of the character of a fail parser
+	 */
 	public static Parser<Character> character(char c) {
 		return Parser.charCond(c1 -> c1 == c);
 	}
 	
+	/**
+	 * Parse a string (without ")
+	 * @param s the string to parse
+	 * @return a parser result s of fail if s can't be parse
+	 */
 	public static Parser<String> string(String s) {
 		if(s.equals("")) return Parser.succesful("");
 		
@@ -95,10 +129,20 @@ public class Parser<T> {
 					 .bind(cs -> Parser.succesful(c + cs)));
 	}
 	
+	/**
+	 * Parse a parser and get a list of the result of this parser zero or plus times
+	 * @param p the parser to parse zero or plus
+	 * @return a list of the result of the parser p
+	 */
 	public static <T> Parser<ArrayList<T>> zeroOrPlus(Parser<T> p) {
 		return Parser.oneOrPlus(p).alternate(Parser.succesful(new ArrayList<T>()));
 	}
 	
+	/**
+	 * Parse a parser and get a list of the result of this parser one or plus times
+	 * @param p the parser to parse one or plus
+	 * @return a list of the result of the parser p
+	 */
 	public static <T> Parser<ArrayList<T>> oneOrPlus(Parser<T> p) {
 		return p.bind(r -> Parser.zeroOrPlus(p)
 				.bind(rs -> {
