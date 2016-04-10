@@ -12,10 +12,10 @@ import com.funparser.parser.ParserResult;
 public class TestParser {
 
 	@Test
-	public void testAnyCar() {
-		Optional<ParserResult<Character>> testChar = Parser.parse(Parser.anyCar(), "Test");
+	public void testAnyChar() {
+		Optional<ParserResult<Character>> testChar = Parser.parse(Parser.anyChar(), "Test");
 		assertEquals('T', (char) testChar.get().getResult());
-		testChar = Parser.parse(Parser.anyCar(), "");
+		testChar = Parser.parse(Parser.anyChar(), "");
 		assertEquals(Optional.empty(), testChar);
 	}
 	
@@ -33,11 +33,11 @@ public class TestParser {
 	
 	@Test
 	public void testBind() {
-		Parser<Character> ps = Parser.bind(Parser.anyCar(), c -> Parser.succesful(c));
+		Parser<Character> ps = Parser.bind(Parser.anyChar(), c -> Parser.succesful(c));
 		Optional<ParserResult<Character>> testChar = Parser.parse(ps, "Test");
 		assertEquals('T', (char) testChar.get().getResult());
 		
-		ps = Parser.bind(Parser.anyCar(), c -> Parser.fail());
+		ps = Parser.bind(Parser.anyChar(), c -> Parser.fail());
 		testChar = Parser.parse(ps, "Test");
 		assertEquals(Optional.empty(), testChar);
 	}

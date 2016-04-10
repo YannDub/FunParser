@@ -25,7 +25,7 @@ public class Parser<T> {
 	 * Parse any characters
 	 * @return A Parser with result : a character
 	 */
-	public static Parser<Character> anyCar() {
+	public static Parser<Character> anyChar() {
 		Function<String, Optional<ParserResult<Character>>> f = s -> {
 			if(s != "") return Optional.of(new ParserResult<Character>(s.charAt(0), s.substring(1)));
 			return Optional.empty();
@@ -102,7 +102,7 @@ public class Parser<T> {
 	 * @return a successful parser with the character of a fail, it's depend of the condition
 	 */
 	public static Parser<Character> charCond(Function<Character, Boolean> cond) {
-		return Parser.bind(Parser.anyCar(), c -> {
+		return Parser.bind(Parser.anyChar(), c -> {
 			if(cond.apply((Character) c)) return Parser.succesful(c);
 			return Parser.fail();
 		});
