@@ -1,4 +1,4 @@
-package yannoudub.parser;
+package com.funparser.parser;
 
 public class MoocObjectValue {
 

@@ -1,4 +1,4 @@
-package yanndub.parser;
+package com.funparser.parser;
 
 public class ParserResult<T> {
 	

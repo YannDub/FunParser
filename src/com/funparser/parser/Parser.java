@@ -1,4 +1,4 @@
-package yanndub.parser;
+package com.funparser.parser;
 
 import java.util.ArrayList;
 import java.util.Optional;

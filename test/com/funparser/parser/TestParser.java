@@ -1,10 +1,13 @@
-package yanndub.parser;
+package com.funparser.parser;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 import org.junit.Test;
+
+import com.funparser.parser.Parser;
+import com.funparser.parser.ParserResult;
 
 public class TestParser {
 
