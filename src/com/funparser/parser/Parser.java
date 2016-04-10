@@ -152,6 +152,15 @@ public class Parser<T> {
 	}
 	
 	/**
+	 * Parse a boolean value
+	 * @return a parser of a boolean
+	 */
+	public static Parser<Boolean> bool() {
+		return Parser.string("true").alternate(Parser.string("false"))
+				.bind(s -> Parser.succesful(s.equals("true")));
+	}
+	
+	/**
 	 * Launch the parser
 	 * @return An Optional<ParserResult<T>> which represent the result of the parse
 	 */

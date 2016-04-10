@@ -1,5 +1,5 @@
 package com.funparser.parser;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -112,6 +112,18 @@ public class TestParser {
 		assertEquals(expected, result.get().getResult());
 		
 		result = Parser.parse(Parser.oneOrPlus(Parser.character('a')), "bbba");
+		assertEquals(Optional.empty(), result);
+	}
+	
+	@Test
+	public void testBool() {
+		Optional<ParserResult<Boolean>> result = Parser.parse(Parser.bool(), "true");
+		assertTrue(result.get().getResult());
+		
+		result = Parser.parse(Parser.bool(), "false");
+		assertFalse(result.get().getResult());
+		
+		result = Parser.parse(Parser.bool(), "Test");
 		assertEquals(Optional.empty(), result);
 	}
 }
