@@ -102,7 +102,7 @@ public class Parser<T> {
 	 * @return a successful parser with the character of a fail, it's depend of the condition
 	 */
 	public static Parser<Character> charCond(Function<Character, Boolean> cond) {
-		return Parser.bind(Parser.anyChar(), c -> {
+		return Parser.anyChar().bind(c -> {
 			if(cond.apply((Character) c)) return Parser.succesful(c);
 			return Parser.fail();
 		});
