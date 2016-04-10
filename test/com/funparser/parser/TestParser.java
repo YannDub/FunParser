@@ -126,4 +126,25 @@ public class TestParser {
 		result = Parser.parse(Parser.bool(), "Test");
 		assertEquals(Optional.empty(), result);
 	}
+	
+	@Test
+	public void testDigit() {
+		Optional<ParserResult<Character>> result = Parser.parse(Parser.digit(), "123");
+		assertEquals('1', (char) result.get().getResult());
+		
+		result = Parser.parse(Parser.digit(), "a123");
+		assertEquals(Optional.empty(), result);
+	}
+	
+	@Test
+	public void testNumber() {
+		Optional<ParserResult<Integer>> result = Parser.parse(Parser.number(), "12345");
+		assertEquals(12345, (int) result.get().getResult());
+		
+		result = Parser.parse(Parser.number(), "1234a5");
+		assertEquals(1234, (int) result.get().getResult());
+		
+		result = Parser.parse(Parser.number(), "a12345");
+		assertEquals(Optional.empty(), result);
+	}
 }

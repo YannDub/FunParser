@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Function;
 
+import com.funparser.utils.ParserUtils;
+
 public class Parser<T> {
 	
 	private Function<String, Optional<ParserResult<T>>> f;
@@ -27,7 +29,7 @@ public class Parser<T> {
 	 */
 	public static Parser<Character> anyChar() {
 		Function<String, Optional<ParserResult<Character>>> f = s -> {
-			if(s != "") return Optional.of(new ParserResult<Character>(s.charAt(0), s.substring(1)));
+			if(!s.equals("")) return Optional.of(new ParserResult<Character>(s.charAt(0), s.substring(1)));
 			return Optional.empty();
 		};
 		return Parser.of(f);			
@@ -158,6 +160,23 @@ public class Parser<T> {
 	public static Parser<Boolean> bool() {
 		return Parser.string("true").alternate(Parser.string("false"))
 				.bind(s -> Parser.succesful(s.equals("true")));
+	}
+	
+	/**
+	 * Parse a digit
+	 * @return a parser of a digit
+	 */
+	public static Parser<Character> digit() {
+		return Parser.charCond(ParserUtils.isDigit());
+	}
+	
+	/**
+	 * Parse a number
+	 * @return a parser of a number
+	 */
+	public static Parser<Integer> number() {
+		return Parser.oneOrPlus(Parser.digit())
+				.bind(xs -> Parser.succesful(Integer.parseInt(ParserUtils.listToString(xs))));
 	}
 	
 	/**
